@@ -28,8 +28,8 @@ export class MyElement extends LitElement {
 
   addToDo() {
     this.listItems.push({ text: this.input.value, completed: false})
-    this.input.value = ''
-    this.requestUpdate()
+    this.input.value = '';
+    this.requestUpdate();
   }
 
   }
