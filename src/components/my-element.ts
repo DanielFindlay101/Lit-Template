@@ -5,53 +5,47 @@ type ToDoItem = {
   text: string,
   completed: boolean
 }
-@customElement("my-element")
-export class MyElement extends LitElement {
 
-    @property({attribute: false})   //Don't understand the false attribute
-    listItems = [
-      { text: "Make a list", completed: false },
-      { text: "Phone home" , completed: false }
-    ]
+@customElement('todo-list')
+export class ToDoList extends LitElement {
 
-    //styles
-    static styles = css`
-      .completed {
-        text-decoration-line: line-through;
-        color: #777;
-      }
-    `;
+  // TODO: Add styles here
+
+  @property({attribute: false})
+  listItems = [
+    { text: 'Make to-do list', completed: true },
+    { text: 'Add some styles', completed: false }
+  ];
 
   render() {
-    return html `
-      <h2>ToDo</h2>
+    return html`
+      <h2>To Do</h2>
       <ul>
-        ${this.listItems.map((item) => 
-          html `<li
-          class=${item.completed ? 'completed' : ''}
-          @click=${() => this.toggleCompleted(item)}
-          >
-          ${item.text}</li>`
-          )}
+        ${this.listItems.map((item) =>
+          html`
+            <li
+                class="TODO"
+                @click=${() => this.toggleCompleted(item)}>
+              ${item.text}
+            </li>`
+        )}
       </ul>
-      <input id="newitem" placeholder="New item">
+      <input id="newitem" aria-label="New item">
       <button @click=${this.addToDo}>Add</button>
-    `
+    `;
   }
 
   toggleCompleted(item: ToDoItem) {
     item.completed = !item.completed;
-    this.requestUpdate()
+    this.requestUpdate();
   }
 
   @query('#newitem')
-  input!: HTMLInputElement
+  input!: HTMLInputElement;
 
   addToDo() {
-    this.listItems.push({ text: this.input.value, completed: false})
+    this.listItems.push({text: this.input.value, completed: false});
     this.input.value = '';
     this.requestUpdate();
-   }
   }
-
- 
+}
