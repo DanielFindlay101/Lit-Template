@@ -53,5 +53,3 @@ export class MyElement extends LitElement {
     this.requestUpdate();
    }
   }
-
- 
