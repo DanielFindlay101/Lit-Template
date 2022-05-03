@@ -4,33 +4,34 @@ import {customElement, property, query} from 'lit/decorators.js';
 @customElement("my-element")
 export class MyElement extends LitElement {
 
-  @property()
-  listItems = [
-    { text: 'Make a list', completed: true },
-    { text: 'Phone Home', completed: false }
-  ];
+    @property() 
+    listItems = [
+      { text: "Make a list", completed: true },
+      { text: "Phone home" , completed: false }
+    ]
 
-  @query('#newitem')
-    input!: HTMLInputElement;
+    @query('#newitem')
+    input!: HTMLInputElement
 
   render() {
     return html `
-      <h2>To Do</h2>
+      <h2>ToDo</h2>
       <ul>
         ${this.listItems.map((item) => 
-            html `<li>${item.text}</li>`
+          html `<li>${item.text}</li>`
           )}
       </ul>
-      <input id="newitem" aria-label="New item">
-      <button @click=${this.addTodo}>Add</button>
+      <input id="newitem" placeholder="New item">
+      <button @click=${this.addToDo}>Add</button>
     `
   }
-    // Add click handler
-    addTodo() {
-        this.listItems.push({text: this.input.value, completed: false})
-        this.input.value = ''
-        this.requestUpdate()
-    }
+
+  addToDo() {
+    this.listItems.push({ text: this.input.value, completed: false})
+    this.input.value = ''
+    this.requestUpdate()
+  }
+
   }
 
  
