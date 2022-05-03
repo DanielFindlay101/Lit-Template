@@ -4,40 +4,72 @@ import {customElement, property, query} from 'lit/decorators.js';
 type ToDoItem = {
   text: string,
   completed: boolean
-}
+};
 
-@customElement('todo-list')
+@customElement('my-element')
 export class ToDoList extends LitElement {
-
-  // TODO: Add styles here
+  static styles = css`
+    .completed {
+      text-decoration-line: line-through;
+      color: #777;
+    }
+  `;
 
   @property({attribute: false})
   listItems = [
     { text: 'Make to-do list', completed: true },
-    { text: 'Add some styles', completed: false }
+    { text: 'Complete Lit tutorial', completed: false }
   ];
+  @property()
+  hideCompleted = false;
 
   render() {
-    return html`
-      <h2>To Do</h2>
+    const items = this.hideCompleted
+      ? this.listItems.filter((item) => !item.completed)
+      : this.listItems;
+    const todos = html`
       <ul>
-        ${this.listItems.map((item) =>
-          html`
-            <li
-                class="TODO"
-                @click=${() => this.toggleCompleted(item)}>
-              ${item.text}
-            </li>`
+        ${items.map((item) =>
+            html`
+              <li
+                  class=${item.completed ? 'completed' : ''}
+                  @click=${() => this.toggleCompleted(item)}>
+                ${item.text}
+              </li>`
         )}
       </ul>
+    `;
+    const caughtUpMessage = html`
+      <p>
+      You're all caught up!
+      </p>
+    `;
+    const todosOrMessage = items.length > 0
+      ? todos
+      : caughtUpMessage;
+
+    return html`
+      <h2>To Do</h2>
+      ${todosOrMessage}
       <input id="newitem" aria-label="New item">
       <button @click=${this.addToDo}>Add</button>
+      <br>
+      <label>
+        <input type="checkbox"
+          @change=${this.setHideCompleted}
+          ?checked=${this.hideCompleted}>
+        Hide completed
+      </label>
     `;
   }
 
   toggleCompleted(item: ToDoItem) {
     item.completed = !item.completed;
     this.requestUpdate();
+  }
+
+  setHideCompleted(e: Event) {
+    this.hideCompleted = (e.target as HTMLInputElement).checked;
   }
 
   @query('#newitem')
