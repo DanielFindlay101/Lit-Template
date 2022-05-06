@@ -10,7 +10,7 @@ class MyElement extends LitElement {
    
   protected render() {
    return html `
-    <button class=${pressed ? 'blue-button-pressed' : 'blue-button'}
+    <button class=${pressed ? 'green-button' : 'blue-button'}
        @click=${() => this.buttonColor()}>Test</button>
    `;
   }
