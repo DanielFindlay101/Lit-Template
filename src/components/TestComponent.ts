@@ -9,35 +9,34 @@ class MyElement extends LitElement {
 
   @state()
   pets = [
-    {name: "Gizmo", species: "Cat"},
-    {name: "Holly", species: "Dog"},
-    {name: "Travis", species: "Tortoise"}
+    { name: "Gizmo", species: "Cat" },
+    { name: "Holly", species: "Dog" },
+    { name: "Trevor", species: "Tortoise" }
   ]
 
   @state()
-  displayPets: boolean = true
+  displayPet: boolean = true
 
   render() {
-    const listItems: TemplateResult[] = [];
+    const listItems: TemplateResult[] = []
     this.friends.forEach((friend) => {
-    listItems.push(html`<li>${friend}</li>`)
+      listItems.push(html`<li>${friend}</li>`)
     })
-
-    if(this.displayPets) {
+    if(this.displayPet) {
       this.pets.forEach((pet) => {
-      listItems.push(html`<li>${pet.name}(${pet.species})</li>`)
+        listItems.push(html`<li>${pet.name}(${pet.species})</li>`)
       })
     }
-   return html`
-    <button @click=${this.togglePets}>
-    ${this.displayPets ? "Hide" : "Show" } pets
+    return html`
+    <button @click=${this.togglePetVisibility}>
+      ${this.displayPet ? "Hide" : "Show"} pets
     </button>
-    <ul>
-      ${listItems}
-    </ul>
-   `
+      <ul>
+        ${listItems}
+      </ul>
+    `
   }
-  private togglePets() {
-    this.displayPets = !this.displayPets
+  private togglePetVisibility() {
+    this.displayPet =! this.displayPet
   }
 }
