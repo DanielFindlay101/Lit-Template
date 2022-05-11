@@ -1,11 +1,43 @@
 import {LitElement, html} from 'lit';
-import {customElement} from 'lit/decorators.js';
+import {customElement, state} from 'lit/decorators.js';
+import type { TemplateResult } from 'lit';
 
 @customElement('my-element')
 class MyElement extends LitElement {
+  @state()
+  friends = ["Daniel", "Katie", "Conrad"]
+
+  @state()
+  pets = [
+    {name: "Gizmo", species: "Cat"},
+    {name: "Holly", species: "Dog"},
+    {name: "Travis", species: "Tortoise"}
+  ]
+
+  @state()
+  displayPets: boolean = true
+
   render() {
-    return html`
-      <div>Hello Everyone!!</div>
-    `;
+    const listItems: TemplateResult[] = [];
+    this.friends.forEach((friend) => {
+    listItems.push(html`<li>${friend}</li>`)
+    })
+
+    if(this.displayPets) {
+      this.pets.forEach((pet) => {
+      listItems.push(html`<li>${pet.name}(${pet.species})</li>`)
+      })
+    }
+   return html`
+    <button @click=${this.togglePets}>
+    ${this.displayPets ? "Hide" : "Show" } pets
+    </button>
+    <ul>
+      ${listItems}
+    </ul>
+   `
+  }
+  private togglePets() {
+    this.displayPets = !this.displayPets
   }
 }
