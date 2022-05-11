@@ -1,11 +1,27 @@
 import {LitElement, html} from 'lit';
-import {customElement} from 'lit/decorators.js';
+import {customElement, property} from 'lit/decorators.js';
+import { map } from 'lit/directives/map.js'
 
 @customElement('my-element')
 class MyElement extends LitElement {
-  render() {
-    return html`
-      <div>Hello Everyone!!</div>
-    `;
-  }
+ @property()
+ groceries = ["Milk", "Apples", "Bananas", "Chocolate"]
+
+ render() {
+  return html `
+   ${map(
+     this.groceries,
+     (item, index) => html `
+     <ul>
+       ${item}
+       <button @click=${() => this._deleteItem(index)}>Delete</button>
+     </ul>
+     `
+   )}
+  `
+ }
+
+ private _deleteItem(index: number){
+   this.groceries = this.groceries.filter((_, i) => i !== index)
+ }
 }
