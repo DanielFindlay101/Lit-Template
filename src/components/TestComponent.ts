@@ -1,20 +1,39 @@
 import {LitElement, html} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
+import {repeat} from 'lit/directives/repeat.js'
 
 @customElement('my-element')
 class MyElement extends LitElement {
   @state()
-  names = ["Daniel", "Katie", "Conrad", "Ian", "Tony", "Ethan"]
+  tasks = [
+    { id: 'a', label: 'Learn Lit' }, 
+    { id: 'b', label: 'Feed the cat' },
+    { id: 'c', label: 'Go for a walk' }, 
+    { id: 'd', label: 'Take a nap' } 
+  ]
+
 
   render() {
     return html`
-    <p>List of friends names containing the letter "a"</p>
-    <ul>
-      ${this.names
-        .filter((name) => name.match(/o/i))
-        .map((name) => html`<li>${name}</li>`)
-      }
-    </ul>
+      <p>Things to do today</p>
+      <button @click=${() => this._sort(1)}>Sort Ascending</button>
+      <button @click=${() => this._sort(-1)}>Sort Descending</button>
+      <ul>
+        ${repeat(
+          this.tasks,
+          (task) => task.id,
+          (task) => html `
+           <li>
+             <label><input type = "checkbox" />${task.id}) ${task.label}</label>
+           </li>
+          `
+        )}
+      </ul>
     `
+  }
+
+  private _sort(dir: number) {
+    this.tasks.sort((a, b) => a.label.localeCompare(b.label) * dir)
+    this.requestUpdate()
   }
 }
