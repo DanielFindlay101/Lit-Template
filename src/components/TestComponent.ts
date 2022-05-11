@@ -1,11 +1,23 @@
 import {LitElement, html} from 'lit';
-import {customElement} from 'lit/decorators.js';
+import {customElement, property} from 'lit/decorators.js';
 
 @customElement('my-element')
 class MyElement extends LitElement {
+  @property()
+  result: string = ''
+
+  flipCoin() {
+    if (Math.random() < 0.5){
+      this.result = "Heads"
+    } else {
+      this.result = "Tails"
+    }
+  }
+
   render() {
     return html`
-      <div>Hello Everyone!!</div>
+      <button @click=${this.flipCoin}>Flip a coin!</button>
+      <p>RESULT: ${this.result}</p>
     `;
   }
 }
