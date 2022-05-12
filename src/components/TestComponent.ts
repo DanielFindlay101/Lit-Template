@@ -1,11 +1,15 @@
 import {LitElement, html} from 'lit';
-import {customElement} from 'lit/decorators.js';
+import {customElement, property} from 'lit/decorators.js';
+import { dateConverter } from './date-converter';
 
 @customElement('my-element')
 class MyElement extends LitElement {
+  @property({converter: dateConverter, reflect: true})
+  date = new Date()
+
   render() {
-    return html`
-      <div>Hello Everyone!!</div>
-    `;
+    return html `
+    <p>The given date is: ${this.date.toLocaleDateString()}</p>
+    `
   }
 }
