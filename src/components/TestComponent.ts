@@ -1,42 +1,42 @@
 import {LitElement, html} from 'lit';
 import {customElement, state} from 'lit/decorators.js';
 import type { TemplateResult } from 'lit';
-
 @customElement('my-element')
 class MyElement extends LitElement {
-  @state()
-  friends = ["Daniel", "Katie", "Conrad"]
+@state()
+friends = ["Daniel", "Katie", "Conrad"]
 
-  @state()
-  pets = [
-    { name: "Gizmo", species: "Cat" },
-    { name: "Holly", species: "Dog" },
-    { name: "Trevor", species: "Tortoise" }
-  ]
+@state()
+pets = [
+  { name: "Gizmo", species: "cat"},
+  { name: "Sammy", species: "dog"},
+  { name: "Trevor", species: "tortoise"}
+]
 
-  @state()
-  displayPet: boolean = true
+@state()
+displayPets: boolean = true
 
-  render() {
-    const listItems: TemplateResult[] = []
-    this.friends.forEach((friend) => {
-      listItems.push(html`<li>${friend}</li>`)
+render() {
+  const listItems: TemplateResult[] =[]
+  this.friends.forEach((friend) => {
+    listItems.push(html`<li>${friend}</li>`)
+  })
+  if(this.displayPets){
+    this.pets.forEach((pet) => {
+      listItems.push(html`<li>${pet.name}(${pet.species})</li>`)
     })
-    if(this.displayPet) {
-      this.pets.forEach((pet) => {
-        listItems.push(html`<li>${pet.name}(${pet.species})</li>`)
-      })
-    }
-    return html`
-    <button @click=${this.togglePetVisibility}>
-      ${this.displayPet ? "Hide" : "Show"} pets
-    </button>
-      <ul>
-        ${listItems}
-      </ul>
-    `
-  }
-  private togglePetVisibility() {
-    this.displayPet =! this.displayPet
-  }
+  } 
+  return html`
+  ${listItems}
+  <button @click=${this._togglePetDisplay}>
+    ${this.displayPets ? "Hide" : "Show"}
+  </button>
+  `
+}
+ 
+private _togglePetDisplay() {
+  this.displayPets = !this.displayPets
+}
+
+
 }
