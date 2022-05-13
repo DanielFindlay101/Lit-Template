@@ -1,12 +1,15 @@
-import { html, css, LitElement } from 'lit';
-import { customElement, property } from 'lit/decorators.js';
-import { elapsedTimer } from './timer';
+import {LitElement, html} from 'lit';
+import {customElement} from 'lit/decorators.js';
+import {ClockController} from './clock-controller'
 
 @customElement('my-element')
-export class MyElement extends LitElement {
+class MyElement extends LitElement {
+  // Create the controller and store it
+  private clock = new ClockController(this, 100);
+
+  // Use the controller in render()
   render() {
-    return html`
-     <h3>My Timer</h3>
-    `
+    const formattedTime =(this.clock.value);
+    return html`${formattedTime}`;
   }
 }
