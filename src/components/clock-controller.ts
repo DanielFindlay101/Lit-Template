@@ -3,25 +3,23 @@ import {LitElement, html} from 'lit';
 
 export class ClockController implements ReactiveController {
   host: ReactiveControllerHost;
-
-  time = 0 
+ 
   seconds = 0
   minutes = 0
   hours = 0
   value: any
+  timeout: number;
+  private _timerID?: number
    
   constructor(host: ReactiveControllerHost, timeout = 1000) {
     (this.host = host).addController(this);
+    this.timeout = timeout
 
   }
   hostConnected() {
     // Start a timer when the host is connected
      setInterval(() => {
     this.seconds++
-
-    if(this.seconds < 9){
-      html `0:${this.seconds}`
-    }
 
     if(this.seconds > 59){
       this.minutes++
@@ -38,6 +36,8 @@ export class ClockController implements ReactiveController {
     }, 1000);
   }
   hostDisconnected() {
-
+        // Clear the timer when the host is disconnected
+        clearInterval(this._timerID);
+        this._timerID = undefined;
   }
 }
