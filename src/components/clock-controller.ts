@@ -9,25 +9,25 @@ export class ClockController implements ReactiveController {
   hours = 0
   value: any
   timeout: number;
-  private _timerID?: number
+  private _timerID?: number;
    
   constructor(host: ReactiveControllerHost, timeout = 1000) {
     (this.host = host).addController(this);
     this.timeout = timeout
-
   }
   hostConnected() {
-    // Start a timer when the host is connected
-     setInterval(() => {
-    this.seconds++
+
+    setInterval(() => {
+     this.seconds++
 
     if(this.seconds > 59){
-      this.minutes++
-      this.seconds = 0
+       this.minutes++
+       this.seconds = 0
     } 
+
     if(this.minutes > 59){
-      this.hours++
-      this.minutes = 0
+       this.hours++
+       this.minutes = 0
     }      
 
     this.value = html`${this.hours} : ${this.minutes} : ${this.seconds}`
@@ -35,6 +35,7 @@ export class ClockController implements ReactiveController {
      this.host.requestUpdate();
     }, 1000);
   }
+
   hostDisconnected() {
         // Clear the timer when the host is disconnected
         clearInterval(this._timerID);
