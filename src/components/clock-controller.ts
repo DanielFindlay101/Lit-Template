@@ -30,7 +30,10 @@ export class ClockController implements ReactiveController {
        this.minutes = 0
     }      
 
-    this.value = html`${this.hours} : ${this.minutes} : ${this.seconds}`
+    this.value = html`
+     ${this.hours < 10 ? html`0${this.hours}` : html`${this.hours}`} :
+     ${this.minutes < 10 ? html`0${this.minutes}` : html`${this.minutes}`} :
+     ${this.seconds < 10 ? html`0${this.seconds}` : html`${this.seconds}`}`
     // Update the host with new value
      this.host.requestUpdate();
     }, 1000);
