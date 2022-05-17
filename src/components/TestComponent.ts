@@ -21,14 +21,13 @@ export class MyElement extends LitElement {
       this.video.play()
     })
   }
-   return html`
+  return html`
       <video id="video" width="640px" height="480px" autoplay></video>
       <button id="snap" @click=${() => this._takePhoto()}>${this.photo? html `CLOSE` : html `SNAP`}</button>
       <button @click=${() => this._clearPhoto()}>CLOSE!</button>
       <canvas id="canvas" width="640px" height="480px"></canvas>
     `
    }
-
    private _takePhoto() {
     // this.photo = true
     const ctx = this.canvas.getContext('2d')
