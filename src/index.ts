@@ -1,1 +1,1 @@
-import './components/TestComponent'
+import './components/parentComponent'
