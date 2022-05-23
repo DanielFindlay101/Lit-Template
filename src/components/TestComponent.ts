@@ -30,8 +30,8 @@ export class MyElement extends LitElement {
    }
    private _takePhoto() {
     // this.photo = true
-    const ctx = this.canvas.getContext('2d')
-    ctx?.drawImage(this.video, 0, 0, 640, 480)
+    const ctx = this.canvas?.getContext('2d')
+    ctx?.drawImage(this.video, 0, 0, 640, 480)    
    }
    private _clearPhoto() {
     // this.photo = false
