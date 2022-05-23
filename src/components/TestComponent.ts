@@ -1,5 +1,6 @@
 import {LitElement, html, PropertyValues} from 'lit';
 import {customElement, query, state, property} from 'lit/decorators.js';
+import './buttonComponent'
 
 @customElement('my-element')
 export class MyElement extends LitElement {
@@ -13,6 +14,18 @@ export class MyElement extends LitElement {
  @property()
  photo: boolean = false
 
+ createPhotoEvent: any
+
+connectedCallback() {
+  super.connectedCallback();
+  this.createPhotoEvent = (event: any) => this._takePhoto();
+  window.addEventListener('take-photo', this.createPhotoEvent);
+}
+disconnectedCallback() {
+  window.removeEventListener('take-photo', this.createPhotoEvent);
+  super.disconnectedCallback();
+}
+
  render() {
   
   if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -23,18 +36,21 @@ export class MyElement extends LitElement {
   }
   return html`
       <video id="video" width="640px" height="480px" autoplay></video>
-      <button id="snap" @click=${() => this._takePhoto()}>${this.photo? html `CLOSE` : html `SNAP`}</button>
+      <button id="snap" @click=${() => this._takePhoto()}>SNAP</button>
       <button @click=${() => this._clearPhoto()}>CLOSE!</button>
       <canvas id="canvas" width="640px" height="480px"></canvas>
+      <button-element></button-element>
     `
    }
    private _takePhoto() {
-    // this.photo = true
+    console.log("Here");  
+    console.log(this);
+          
     const ctx = this.canvas?.getContext('2d')
-    ctx?.drawImage(this.video, 0, 0, 640, 480)    
+    ctx?.drawImage(this.video, 0, 0, 640, 480)   
+    console.log(ctx);     
    }
-   private _clearPhoto() {
-    // this.photo = false
+   private _clearPhoto() {     
     const ctx = this.canvas.getContext('2d')
     ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height)
    }
