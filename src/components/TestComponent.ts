@@ -18,12 +18,12 @@ export class MyElement extends LitElement {
 
 connectedCallback() {
   super.connectedCallback();
-  this.createPhotoEvent = (event: any) => this._takePhoto();
+  this.createPhotoEvent = this._takePhoto.bind(this)
   window.addEventListener('take-photo', this.createPhotoEvent);
 }
 disconnectedCallback() {
-  window.removeEventListener('take-photo', this.createPhotoEvent);
-  super.disconnectedCallback();
+   window.removeEventListener('take-photo', this.createPhotoEvent); 
+   super.disconnectedCallback();
 }
 
  render() {
@@ -42,13 +42,10 @@ disconnectedCallback() {
       <button-element></button-element>
     `
    }
-   private _takePhoto() {
-    console.log("Here");  
+   private _takePhoto() {     
     console.log(this);
-          
-    const ctx = this.canvas?.getContext('2d')
-    ctx?.drawImage(this.video, 0, 0, 640, 480)   
-    console.log(ctx);     
+    const ctx = this.canvas.getContext('2d')
+    ctx?.drawImage(this.video, 0, 0, 640, 480)        
    }
    private _clearPhoto() {     
     const ctx = this.canvas.getContext('2d')
