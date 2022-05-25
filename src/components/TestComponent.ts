@@ -11,6 +11,9 @@ export class MyElement extends LitElement {
  @query('#video')
  video: HTMLVideoElement
 
+ @query('#my-image')
+ img: HTMLImageElement
+
  @property()
  photo: boolean = false
 
@@ -39,16 +42,19 @@ disconnectedCallback() {
       <button id="snap" @click=${() => this._takePhoto()}>SNAP</button>
       <button @click=${() => this._clearPhoto()}>CLOSE!</button>
       <canvas id="canvas" width="640px" height="480px"></canvas>
+      <img id="my-image"/>
       <button-element></button-element>
     `
    }
    private _takePhoto() {     
-    console.log(this);
     const ctx = this.canvas.getContext('2d')
-    ctx?.drawImage(this.video, 0, 0, 640, 480)        
+    ctx?.drawImage(this.video, 0, 0, 640, 480) 
+    const dataURL = this.canvas.toDataURL('image/jpeg')    
+    console.log(dataURL)   
    }
    private _clearPhoto() {     
     const ctx = this.canvas.getContext('2d')
     ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height)
    }
+    
   }
