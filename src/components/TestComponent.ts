@@ -11,12 +11,6 @@ export class MyElement extends LitElement {
  @query('#video')
  video: HTMLVideoElement
 
- @query('#my-image')
- img: HTMLImageElement
-
- @property()
- photo: boolean = false
-
  createPhotoEvent: any
 
 connectedCallback() {
@@ -42,19 +36,24 @@ disconnectedCallback() {
       <button id="snap" @click=${() => this._takePhoto()}>SNAP</button>
       <button @click=${() => this._clearPhoto()}>CLOSE!</button>
       <canvas id="canvas" width="640px" height="480px"></canvas>
-      <img id="my-image"/>
       <button-element></button-element>
     `
-   }
+ }
    private _takePhoto() {     
     const ctx = this.canvas.getContext('2d')
     ctx?.drawImage(this.video, 0, 0, 640, 480) 
-    const dataURL = this.canvas.toDataURL('image/jpeg')    
-    console.log(dataURL)   
+    const dataURL = this.canvas.toDataURL('image/jpeg')      
+
+    fetch("https://reqres.in/api/users").then((response) => {
+      return response.json()
+    }).then(data => {
+      console.log(data)
+    }).catch((err) => {
+      console.log("rejected", err)
+    })
    }
    private _clearPhoto() {     
     const ctx = this.canvas.getContext('2d')
     ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height)
-   }
-    
-  }
+   }  
+}
